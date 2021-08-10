@@ -32,17 +32,17 @@ certificatesresolvers:
         acme:
             httpchallenge:
                 entrypoint: web
-            email: aplikacja@monolynx.com
+            email: user@domain.tld
             storage: /letsencrypt/acme.json
     asisresolver:
         acme:
             httpchallenge:
                 entrypoint: web
-            email: aplikacja@monolynx.com
+            email: user@domain.tld
             storage: /letsencrypt/acme.json
     masksresolver:
         acme:
             httpchallenge:
                 entrypoint: web
-            email: aplikacja@monolynx.com
+            email: user@domain.tld
             storage: /letsencrypt/acme.json
