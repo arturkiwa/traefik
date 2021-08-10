@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+    traefik:
+        image: traefik:v2.2
+        ports:
+            - 80:80
+            - 443:443
+            - 8080:8080
+        labels:
+            - "traefik.enable=true"
+            - "traefik.docker.network=${TRAEFIK_NETWORK_NAME}"
+            - "traefik.http.routers.api.rule=Host(`${TRAEFIK_HOST}`)"
+            - "traefik.http.routers.api.entrypoints=${TRAEFIK_ENTRYPOINT}"
+            - "traefik.http.routers.api.tls.certresolver=${TRAEFIK_CERTRESOLVER}"
+            - "traefik.http.routers.api.service=api@internal"
+            - "traefik.http.routers.api.middlewares=traefik-auth"
+            - "traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_AUTH_USER}:${TRAEFIK_AUTH_PASSWORD}"
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+            - ./letsencrypt:/letsencrypt
+            - ./logs:/logs
+            - ./traefik.yaml:/traefik.yaml
+        networks:
+            - traefik-network
+
+networks:
+    traefik-network:
+        name: ${TRAEFIK_NETWORK_NAME}
+        driver: bridge

@@ -1,0 +1,6 @@
+.idea/
+.env
+.php_cs.cache
+letsencrypt/
+logs/
+traefik.yaml

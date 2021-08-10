@@ -1,0 +1,48 @@
+api:
+    dashboard: true
+
+accessLog:
+    filePath: /logs/access.log
+    bufferingSize: 100
+    format: json
+
+log:
+    level: ERROR
+    filePath: /logs/error.log
+    format: json
+
+providers:
+    docker:
+        endpoint: "unix:///var/run/docker.sock"
+        exposedByDefault: false
+
+entrypoints:
+    web:
+        address: ":80"
+        http:
+            redirections:
+                entrypoint:
+                    to: websecure
+                    scheme: https
+    websecure:
+        address: ":443"
+
+certificatesresolvers:
+    apiresolver:
+        acme:
+            httpchallenge:
+                entrypoint: web
+            email: aplikacja@monolynx.com
+            storage: /letsencrypt/acme.json
+    asisresolver:
+        acme:
+            httpchallenge:
+                entrypoint: web
+            email: aplikacja@monolynx.com
+            storage: /letsencrypt/acme.json
+    masksresolver:
+        acme:
+            httpchallenge:
+                entrypoint: web
+            email: aplikacja@monolynx.com
+            storage: /letsencrypt/acme.json
